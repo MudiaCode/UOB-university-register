@@ -8,6 +8,11 @@ public record UniversityRegister(List<Student> students) {
         this.students = List.copyOf(students);
     }
 
+    @Override
+    public List<Student> students() {
+        return List.copyOf(students);
+    }
+
     public UniversityRegister addStudent(Student student) {
         List<Student> newStudents = new ArrayList<>(students);
         newStudents.add(student);

@@ -9,178 +9,154 @@ public class UniversityRegisterTester {
         List<Student> students = List.of(
                 new Student(1, "John Doe", "Computer Science", "CS101", 85),
                 new Student(2, "Jane Smith", "Mathematics", "MA201", 78),
-                new Student(3, "Bob Johnson", "Physics", "PH301", 92)
+                new Student(3, "Bob Johnson", "Physics", "PH301", 92),
+                new Student(4, "Alice Brown", "Computer Science", "CS101", 88)
         );
 
         UniversityRegister universityRegister = new UniversityRegister(students);
 
         while (true) {
             displayMenu();
-            int choice = getChoice();
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
 
             switch (choice) {
                 case 1:
-                    addStudent(universityRegister);
+                    testAddStudent(universityRegister);
                     break;
                 case 2:
-                    removeStudentById(universityRegister);
+                    testRemoveStudentById(universityRegister);
                     break;
                 case 3:
-                    queryStudentsByName(universityRegister);
+                    testQueryStudentsByName(universityRegister);
                     break;
                 case 4:
-                    queryStudentsByCourse(universityRegister);
+                    testQueryStudentsByCourse(universityRegister);
                     break;
                 case 5:
-                    queryStudentsByModule(universityRegister);
+                    testQueryStudentsByModule(universityRegister);
                     break;
                 case 6:
-                    getStudentsOnModuleSortedDescending(universityRegister);
+                    testGetStudentsOnModuleSortedDescending(universityRegister);
                     break;
                 case 7:
-                    getStudentsOnCourseWithNameMatching(universityRegister);
+                    testGetStudentsOnCourseWithNameMatching(universityRegister);
                     break;
                 case 8:
-                    getStudentsWithNameStartingWith(universityRegister);
+                    testGetStudentsWithNameStartingWith(universityRegister);
                     break;
                 case 9:
-                    System.out.println("Exiting the program. Goodbye!");
-                    System.exit(0);
+                    System.exit(0); // exit the program
                 default:
-                    System.out.println("Invalid choice. Please choose a valid option.");
+                    System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 
     private static void displayMenu() {
-        System.out.println("\nUniversity Register Menu:");
-        System.out.println("1. Add a new student");
-        System.out.println("2. Remove an existing student");
-        System.out.println("3. Query existing students by name");
-        System.out.println("4. Query existing students by course");
-        System.out.println("5. Query existing students by module");
-        System.out.println("6. Get all students on a module sorted in descending order of marks");
-        System.out.println("7. Get all students on a course whose names match a given text");
-        System.out.println("8. Get all students whose names begin with a given letter");
+        System.out.println("===== University Register Menu =====");
+        System.out.println("1. Add Student");
+        System.out.println("2. Remove Student by ID");
+        System.out.println("3. Query Students by Name");
+        System.out.println("4. Query Students by Course");
+        System.out.println("5. Query Students by Module");
+        System.out.println("6. Get Students on Module Sorted Descending");
+        System.out.println("7. Get Students on Course with Name Matching");
+        System.out.println("8. Get Students with Name Starting With");
         System.out.println("9. Exit");
         System.out.print("Enter your choice: ");
     }
 
-    private static int getChoice() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a number.");
-            scanner.next();  // Consume the invalid input
-        }
-        int choice = scanner.nextInt();
-        scanner.nextLine();  // Consume the newline character
-        return choice;
-    }
-
-    private static void addStudent(UniversityRegister universityRegister) {
-        System.out.print("Enter student ID: ");
-        int id = getIntInput();
-        System.out.print("Enter student name: ");
-        String name = getStringInput();
-        System.out.print("Enter student course: ");
-        String course = getStringInput();
-        System.out.print("Enter student module: ");
-        String module = getStringInput();
-        System.out.print("Enter student marks: ");
-        int marks = getIntInput();
+    private static void testAddStudent(UniversityRegister universityRegister) {
+        System.out.println("Enter student details:");
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine(); // consume newline
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+        System.out.print("Course: ");
+        String course = scanner.nextLine();
+        System.out.print("Module: ");
+        String module = scanner.nextLine();
+        System.out.print("Marks: ");
+        int marks = scanner.nextInt();
 
         Student newStudent = new Student(id, name, course, module, marks);
-        universityRegister = universityRegister.addStudent(newStudent);
+        UniversityRegister updatedRegister = universityRegister.addStudent(newStudent);
 
         System.out.println("Student added successfully!");
-        System.out.println("Updated student list: ");
-        universityRegister.students().forEach(System.out::println);
+        System.out.println("Updated student list:");
+        updatedRegister.students().forEach(System.out::println);
     }
 
-    private static void removeStudentById(UniversityRegister universityRegister) {
+    private static void testRemoveStudentById(UniversityRegister universityRegister) {
         System.out.print("Enter student ID to remove: ");
-        int idToRemove = getIntInput();
-
-        universityRegister = universityRegister.removeStudentById(idToRemove);
+        int studentId = scanner.nextInt();
+        UniversityRegister updatedRegister = universityRegister.removeStudentById(studentId);
 
         System.out.println("Student removed successfully!");
-        System.out.println("Updated student list: ");
-        universityRegister.students().forEach(System.out::println);
+        System.out.println("Updated student list:");
+        updatedRegister.students().forEach(System.out::println);
     }
 
-    private static void queryStudentsByName(UniversityRegister universityRegister) {
+    private static void testQueryStudentsByName(UniversityRegister universityRegister) {
         System.out.print("Enter student name to query: ");
-        String nameToQuery = getStringInput();
-
-        List<Student> result = universityRegister.queryStudentsByName(nameToQuery);
+        scanner.nextLine(); // consume newline
+        String name = scanner.nextLine();
+        List<Student> result = universityRegister.queryStudentsByName(name);
 
         System.out.println("Query results:");
         result.forEach(System.out::println);
     }
 
-    private static void queryStudentsByCourse(UniversityRegister universityRegister) {
+    private static void testQueryStudentsByCourse(UniversityRegister universityRegister) {
         System.out.print("Enter course to query: ");
-        String courseToQuery = getStringInput();
-
-        List<Student> result = universityRegister.queryStudentsByCourse(courseToQuery);
-
-        System.out.println("Query results:");
-        result.forEach(System.out::println);
-    }
-
-    private static void queryStudentsByModule(UniversityRegister universityRegister) {
-        System.out.print("Enter module to query: ");
-        String moduleToQuery = getStringInput();
-
-        List<Student> result = universityRegister.queryStudentsByModule(moduleToQuery);
+        scanner.nextLine(); // consume newline
+        String course = scanner.nextLine();
+        List<Student> result = universityRegister.queryStudentsByCourse(course);
 
         System.out.println("Query results:");
         result.forEach(System.out::println);
     }
 
-    private static void getStudentsOnModuleSortedDescending(UniversityRegister universityRegister) {
+    private static void testQueryStudentsByModule(UniversityRegister universityRegister) {
         System.out.print("Enter module to query: ");
-        String moduleToQuery = getStringInput();
+        scanner.nextLine(); // consume newline
+        String module = scanner.nextLine();
+        List<Student> result = universityRegister.queryStudentsByModule(module);
 
-        List<Student> result = universityRegister.getStudentsOnModuleSortedDescending(moduleToQuery);
-
-        System.out.println("Query results (sorted in descending order of marks):");
+        System.out.println("Query results:");
         result.forEach(System.out::println);
     }
 
-    private static void getStudentsOnCourseWithNameMatching(UniversityRegister universityRegister) {
+    private static void testGetStudentsOnModuleSortedDescending(UniversityRegister universityRegister) {
+        System.out.print("Enter module to query: ");
+        scanner.nextLine(); // consume newline
+        String module = scanner.nextLine();
+        List<Student> result = universityRegister.getStudentsOnModuleSortedDescending(module);
+
+        System.out.println("Query results:");
+        result.forEach(System.out::println);
+    }
+
+    private static void testGetStudentsOnCourseWithNameMatching(UniversityRegister universityRegister) {
         System.out.print("Enter course to query: ");
-        String courseToQuery = getStringInput();
-        System.out.print("Enter text to match in names: ");
-        String textToMatch = getStringInput();
-
-        List<Student> result = universityRegister.getStudentsOnCourseWithNameMatching(courseToQuery, textToMatch);
-
-        System.out.println("Query results:");
-        result.forEach(System.out::println);
-    }
-
-    private static void getStudentsWithNameStartingWith(UniversityRegister universityRegister) {
-        System.out.print("Enter letter to match at the beginning of names: ");
-        char letterToMatch = getStringInput().charAt(0);
-
-        List<Student> result = universityRegister.getStudentsWithNameStartingWith(letterToMatch);
+        scanner.nextLine(); // consume newline
+        String course = scanner.nextLine();
+        System.out.print("Enter name to match: ");
+        String text = scanner.nextLine();
+        List<Student> result = universityRegister.getStudentsOnCourseWithNameMatching(course, text);
 
         System.out.println("Query results:");
         result.forEach(System.out::println);
     }
 
-    private static int getIntInput() {
-        while (!scanner.hasNextInt()) {
-            System.out.println("Invalid input. Please enter a number.");
-            scanner.next();  // Consume the invalid input
-        }
-        int input = scanner.nextInt();
-        scanner.nextLine();  // Consume the newline character
-        return input;
-    }
+    private static void testGetStudentsWithNameStartingWith(UniversityRegister universityRegister) {
+        System.out.print("Enter starting letter of the name: ");
+        char letter = scanner.nextLine().charAt(0);
+        List<Student> result = universityRegister.getStudentsWithNameStartingWith(letter);
 
-    private static String getStringInput() {
-        String input = scanner.nextLine();
-        return input.trim();
+        System.out.println("Query results:");
+        result.forEach(System.out::println);
     }
 }
